@@ -160,35 +160,35 @@ body { margin-bottom: 60px;  padding-top:4.5rem;}
 	 */
 	function createNavigation(path:String):String {
 		var folder = path.replace(EXPORT, ''); // remove absolute data
-		var arr = folder.split('/'); // create array based upon `/`
-		var temp = '';
-		for (i in 0...arr.length - 1) {
-			temp += '../';
-		}
-		var path = Path.normalize(temp + 'foobar.html');
-
 		var pages = [];
 		var posts = [];
 		var str = '<header>\n<!-- header/navigation -->';
-		str += '\n<!--
-		${folder}
-		${temp}
-		${path}
-		-->';
 		str += '\n<!--';
 		str += '\npages:';
 		for (i in 0...pageArr.length) {
 			var writeFile = pageArr[i];
-			str += '\n\t-  <a href="${writeFile.folderName}/${writeFile.fileName}.html">${writeFile.fileName}</a>';
-			pages.push(writeFile.toObj());
-			// str += '\n\n* <a href="${Path.normalize(folder + '/' + temp + writeFile.fileName + '.html')}">${writeFile.fileName}</a>';
-			// str += '\n\n';
+			var obj = writeFile.toObj();
+			if (folder.indexOf(PAGES) != -1) {
+				str += '\n\t-  <a href="${writeFile.fileName}.html">${writeFile.fileName}</a>';
+				Reflect.setField(obj, 'path', '${writeFile.fileName}.html');
+			} else {
+				str += '\n\t-  <a href="../${writeFile.folderName}/${writeFile.fileName}.html">${writeFile.fileName}</a>';
+				Reflect.setField(obj, 'path', '../${writeFile.folderName}/${writeFile.fileName}.html');
+			}
+			pages.push(obj);
 		}
 		str += '\nposts:';
 		for (i in 0...postArr.length) {
 			var writeFile = postArr[i];
-			str += '\n\t-  <a href="${writeFile.folderName}/${writeFile.fileName}.html">${writeFile.fileName}</a>';
-			posts.push(writeFile.toObj());
+			var obj = writeFile.toObj();
+			if (folder.indexOf(POSTS) != -1) {
+				str += '\n\t-  <a href="${writeFile.fileName}.html">${writeFile.fileName}</a>';
+				Reflect.setField(obj, 'path', '${writeFile.fileName}.html');
+			} else {
+				str += '\n\t-  <a href="../${writeFile.folderName}/${writeFile.fileName}.html">${writeFile.fileName}</a>';
+				Reflect.setField(obj, 'path', '../${writeFile.folderName}/${writeFile.fileName}.html');
+			}
+			posts.push(obj);
 		}
 		str += '\n-->';
 
@@ -203,7 +203,7 @@ body { margin-bottom: 60px;  padding-top:4.5rem;}
 		<ul class="navbar-nav mr-auto">
 			::foreach pages::
 			<li class="nav-item">
-				<a class="nav-link" href="::folderName::/::fileName::.html">::fileName::</a>
+				<a class="nav-link" href="::path::">::fileName::</a>
 			</li>
 			::end::
 		</ul>
