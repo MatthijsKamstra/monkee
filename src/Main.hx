@@ -2,8 +2,8 @@ package;
 
 import haxe.io.Path;
 
-
 using StringTools;
+
 /**
  * @author Matthijs Kamstra aka [mck]
  */
@@ -39,6 +39,7 @@ class Main {
 		collectData();
 		writeFiles();
 		writeIndex();
+		writeCSS();
 
 		trace('[${TARGET}] done in ${Std.int(Date.now().getTime() - startTime)}ms');
 	}
@@ -80,13 +81,38 @@ class Main {
 	}
 
 	function writeIndex() {
-		var path = Path.normalize(ASSETS + '/home.md');
-		if (sys.FileSystem.exists(path)) {
-			var md:String = sys.io.File.getContent(path);
-			writeHtml(EXPORT, 'index', Markdown.markdownToHtml(md));
-		} else {
-			trace('ERROR: there is not file: $path');
+		var posts = [];
+		for (i in 0...postArr.length) {
+			var writeFile = postArr[i];
+			posts.push(writeFile.toObj());
 		}
+		var str = '
+		::foreach posts::
+		<div class="container">
+::markdownShort::
+			<a class="btn btn-outline-dark" href="::folderName::/::fileName::.html" role="button">::fileName::</a>
+		</div>
+		<hr>
+		::end::
+		';
+
+		var template = new haxe.Template(str);
+		var output = template.execute({posts: posts});
+
+		// we need to wrap the content
+		var html = '<!doctype html>\n<html lang="en">\n${createHead(EXPORT)}\n<body>\n${createNavigation(EXPORT)}\n<main rol="main" class="container">\n${output}\n</main>\n${createFooter()}\n</body>\n</html>';
+		// write the file
+		sys.io.File.saveContent(EXPORT + '/index.html', html);
+		trace('written file: ${EXPORT}/index.html');
+	}
+
+	function writeCSS() {
+		var css = '
+html { position: relative; min-height: 100%; }
+body { margin-bottom: 60px;  padding-top:4.5rem;}
+.footer {  position: absolute; bottom: 0; width: 100%;  height: 60px; line-height: 60px; background-color: #f5f5f5;}
+';
+		sys.io.File.saveContent(EXPORT + '/default.css', css);
 	}
 
 	/**
@@ -100,13 +126,20 @@ class Main {
 			sys.FileSystem.createDirectory(path);
 		}
 		// we need to wrap the content
-		var html = '<!doctype html>\n<html lang="en">\n${createHead()}\n<body>\n${createNavigation()}\n<main rol="main">\n${content}\n</main>\n${createFooter()}\n</body>\n</html>';
+		var html = '<!doctype html>\n<html lang="en">\n${createHead(path)}\n<body>\n${createNavigation(path)}\n<main rol="main" class="container">\n${content}\n</main>\n${createFooter()}\n</body>\n</html>';
 		// write the file
 		sys.io.File.saveContent(path + '/${filename}.html', html);
 		trace('written file: ${path}/${filename}.html');
 	}
 
-	function createHead():String {
+	function createHead(path:String):String {
+		var folder = path.replace(EXPORT, ''); // remove absolute data
+		var arr = folder.split('/'); // create array based upon `/`
+		var temp = '';
+		for (i in 0...arr.length - 1) {
+			temp += '../';
+		}
+		var path = Path.normalize(temp + '/default.css');
 		var str = '<head>
 			<!-- Required meta tags -->
 			<meta charset="utf-8">
@@ -114,8 +147,9 @@ class Main {
 			<!-- Bootstrap CSS -->
 			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 			<title>::title::</title>
+			<link href="${path}" rel="stylesheet">
 		</head>';
-		var template = new haxe.Template(str.replace('\t',''));
+		var template = new haxe.Template(str.replace('\t', ''));
 		var output = template.execute(settings);
 		return output;
 	}
@@ -124,31 +158,66 @@ class Main {
 	 * perhaps better to store this somewhere
 	 * @return String
 	 */
-	function createNavigation():String {
-		var str = '<header>\n<!-- navigation -->\n<!--';
+	function createNavigation(path:String):String {
+		var root = path.replace(EXPORT, '');
+		var pages = [];
+		var posts = [];
+		var str = '<header>\n<!-- header/navigation -->';
+		str += '\n<!-- ${root} -->';
+		str += '\n<!--';
 		str += '\npages:';
 		for (i in 0...pageArr.length) {
 			var writeFile = pageArr[i];
 			str += '\n\t-  <a href="${writeFile.folderName}/${writeFile.fileName}.html">${writeFile.fileName}</a>';
+			pages.push(writeFile.toObj());
 		}
 		str += '\nposts:';
 		for (i in 0...postArr.length) {
 			var writeFile = postArr[i];
 			str += '\n\t-  <a href="${writeFile.folderName}/${writeFile.fileName}.html">${writeFile.fileName}</a>';
+			posts.push(writeFile.toObj());
 		}
-		str += '\n-->\n</header>';
-		return str;
+		str += '\n-->';
+
+		str += '\n
+		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+		<div class="container">
+		<a class="navbar-brand" href="#">*</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarCollapse">
+		<ul class="navbar-nav mr-auto">
+			::foreach pages::
+			<li class="nav-item">
+				<a class="nav-link" href="::folderName::/::fileName::.html">::fileName::</a>
+			</li>
+			::end::
+		</ul>
+		</div>
+		</div>
+		</nav>
+		';
+		str += '\n</header>';
+
+		var template = new haxe.Template(str.replace('\t', ''));
+		var output = template.execute({pages: pages});
+		return output;
 	}
 
 	function createFooter():String {
-		var str = '<footer>\n::footer::\n</footer>
+		var str = '<footer class="footer">
+		<div class="container">
+		<span class="text-muted">::footer::</span>
+		</div>
+		</footer>
 		<!-- Optional JavaScript -->
 		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 		<!-- Generated on: ${Date.now()} -->';
-		var template = new haxe.Template(str.replace('\t',''));
+		var template = new haxe.Template(str.replace('\t', ''));
 		var output = template.execute(settings);
 		return output;
 	}
@@ -162,6 +231,8 @@ class WriteFile {
 	public var folderName:String;
 	public var fileName:String;
 	public var fileContent:String;
+	public var markdown:String;
+	public var markdownShort:String;
 
 	/**
 	 * [Description]
@@ -173,6 +244,18 @@ class WriteFile {
 		this.folderName = folderName;
 		this.fileName = fileName;
 		this.fileContent = fileContent;
+		this.markdown = Markdown.markdownToHtml(fileContent);
+		this.markdownShort = Markdown.markdownToHtml(fileContent.substr(0, 200) + ' ...');
+	}
+
+	public function toObj():Dynamic {
+		return {
+			folderName: folderName,
+			fileName: fileName,
+			fileContent: fileContent,
+			markdown: markdown,
+			markdownShort: markdownShort
+		};
 	}
 
 	public function toString():String {
