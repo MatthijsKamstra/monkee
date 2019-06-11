@@ -1,0 +1,13 @@
+-lib markdown
+
+-cp src
+-main Main
+-python bin/python/main.py
+# -debug
+-dce full
+
+--next
+
+# run application
+-cmd cd bin/python
+-cmd python3 main.py

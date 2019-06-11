@@ -1,0 +1,13 @@
+-lib markdown
+
+-cp src
+-main Main
+-lua bin/lua/main.lua
+# -debug
+-dce full
+
+--next
+
+# run application
+-cmd cd bin/lua
+-cmd lua main.lua

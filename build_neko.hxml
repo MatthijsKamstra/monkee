@@ -1,0 +1,14 @@
+-lib markdown
+
+-cp src
+-main Main
+-neko bin/neko/main.n
+# -debug
+-dce full
+
+--next
+
+# run application
+-cmd cd bin/neko
+# -cmd nekotools boot bin/main.n
+-cmd neko main.n

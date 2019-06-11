@@ -1,0 +1,7 @@
+-cmd echo 'remove docs'
+-cmd rm -rf docs
+-cmd echo 'create docs'
+-cmd mkdir -p docs
+-cmd echo 'copy www/python/ folder to docs/'
+-cmd cp -R www/python/. docs/
+-cmd echo 'done'

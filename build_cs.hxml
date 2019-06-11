@@ -1,0 +1,13 @@
+-lib markdown
+
+-cp src
+-main Main
+-cs bin/cs
+# -debug
+-dce full
+
+--next
+
+# run application
+-cmd cd bin/cs/bin
+-cmd mono Main.exe

@@ -1,0 +1,13 @@
+-lib markdown
+
+-cp src
+-main Main
+-java bin/java
+# -debug
+-dce full
+
+--next
+
+# run application
+-cmd cd bin/java
+-cmd java -jar Main.jar

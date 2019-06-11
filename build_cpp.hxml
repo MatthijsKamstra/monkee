@@ -1,0 +1,13 @@
+-lib markdown
+
+-cp src
+-main Main
+-cpp bin/cpp
+# -debug
+-dce full
+
+--next
+
+# run application
+-cmd cd bin/cpp
+-cmd ./Main
