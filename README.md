@@ -7,6 +7,7 @@ Minimal static site generator
 
 ## speed
 
+```
   │ ├── node
 [node] done in 42ms
   │ ├── python
@@ -24,6 +25,7 @@ Main.hx:41: [cs] done in 130ms
 Main.hx:41: [java] done in 224ms
 Note: Some input files use or override a deprecated API.
 Note: Recompile with -Xlint:deprecation for details.
+```
 
 ## python
 
