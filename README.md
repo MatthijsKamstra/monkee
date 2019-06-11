@@ -4,6 +4,11 @@
 
 Minimal static site generator
 
+## default haxe used
+
+- [templates](https://haxe.org/manual/std-template.html)
+- markdown lib
+- reading and writing
 
 ## speed
 
