@@ -139,7 +139,7 @@ body { margin-bottom: 60px;  padding-top:4.5rem;}
 		for (i in 0...arr.length - 1) {
 			temp += '../';
 		}
-		var path = Path.normalize(temp + '/default.css');
+		var path = Path.normalize(temp + 'default.css');
 		var str = '<head>
 			<!-- Required meta tags -->
 			<meta charset="utf-8">
@@ -159,17 +159,30 @@ body { margin-bottom: 60px;  padding-top:4.5rem;}
 	 * @return String
 	 */
 	function createNavigation(path:String):String {
-		var root = path.replace(EXPORT, '');
+		var folder = path.replace(EXPORT, ''); // remove absolute data
+		var arr = folder.split('/'); // create array based upon `/`
+		var temp = '';
+		for (i in 0...arr.length - 1) {
+			temp += '../';
+		}
+		var path = Path.normalize(temp + 'foobar.html');
+
 		var pages = [];
 		var posts = [];
 		var str = '<header>\n<!-- header/navigation -->';
-		str += '\n<!-- ${root} -->';
+		str += '\n<!--
+		${folder}
+		${temp}
+		${path}
+		-->';
 		str += '\n<!--';
 		str += '\npages:';
 		for (i in 0...pageArr.length) {
 			var writeFile = pageArr[i];
 			str += '\n\t-  <a href="${writeFile.folderName}/${writeFile.fileName}.html">${writeFile.fileName}</a>';
 			pages.push(writeFile.toObj());
+			// str += '\n\n* <a href="${Path.normalize(folder + '/' + temp + writeFile.fileName + '.html')}">${writeFile.fileName}</a>';
+			// str += '\n\n';
 		}
 		str += '\nposts:';
 		for (i in 0...postArr.length) {
