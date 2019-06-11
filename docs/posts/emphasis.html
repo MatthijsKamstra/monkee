@@ -7,39 +7,73 @@
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <title>[python] minimal static site generator</title>
+<link href="../default.css" rel="stylesheet">
 </head>
 <body>
 <header>
-<!-- navigation -->
+<!-- header/navigation -->
+<!-- /posts -->
 <!--
 pages:
-	-  <a href="pages/contact.html">contact</a>
-	-  <a href="pages/about.html">about</a>
+-  <a href="pages/contact.html">contact</a>
+-  <a href="pages/home.html">home</a>
+-  <a href="pages/about.html">about</a>
 posts:
-	-  <a href="posts/images.html">images</a>
-	-  <a href="posts/inline_code.html">inline_code</a>
-	-  <a href="posts/headers.html">headers</a>
-	-  <a href="posts/emphasis.html">emphasis</a>
-	-  <a href="posts/lists.html">lists</a>
-	-  <a href="posts/links.html">links</a>
-	-  <a href="posts/blockquotes.html">blockquotes</a>
+-  <a href="posts/images.html">images</a>
+-  <a href="posts/lorum1.html">lorum1</a>
+-  <a href="posts/lorum0.html">lorum0</a>
+-  <a href="posts/inline_code.html">inline_code</a>
+-  <a href="posts/headers.html">headers</a>
+-  <a href="posts/emphasis.html">emphasis</a>
+-  <a href="posts/lists.html">lists</a>
+-  <a href="posts/links.html">links</a>
+-  <a href="posts/blockquotes.html">blockquotes</a>
 -->
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+<div class="container">
+<a class="navbar-brand" href="#">*</a>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarCollapse">
+<ul class="navbar-nav mr-auto">
+
+<li class="nav-item">
+<a class="nav-link" href="pages/contact.html">contact</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="pages/home.html">home</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="pages/about.html">about</a>
+</li>
+
+</ul>
+</div>
+</div>
+</nav>
+
 </header>
-<main rol="main">
+<main rol="main" class="container">
 <h1>Emphasis</h1>
 <p>Emphasis, aka italics, with <em>asterisks</em> or <em>underscores</em>.</p>
 <p>Strong emphasis, aka bold, with <strong>asterisks</strong> or <strong>underscores</strong>.</p>
 <p>Combined emphasis with <strong>asterisks and <em>underscores</em></strong>.</p>
 <p>Strikethrough uses two tildes. ~~Scratch this.~~</p>
 </main>
-<footer>
-Copyright &copy; 2019 - [mck]
+<footer class="footer">
+<div class="container">
+<span class="text-muted">Copyright &copy; 2019 - [mck]</span>
+</div>
 </footer>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<!-- Generated on: 2019-06-11 13:22:11 -->
+<!-- Generated on: 2019-06-11 16:44:50 -->
 </body>
 </html>
