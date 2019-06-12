@@ -147,6 +147,9 @@ body { margin-bottom: 60px;  padding-top:4.5rem;}
 			<!-- Bootstrap CSS -->
 			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 			<title>::title::</title>
+			<!-- Drop-In Alternative for Font Awesome Icons: https://ficons.fiction.com/ -->
+			<link href="https://cdn.jsdelivr.net/npm/ficons@1.1.52/dist/ficons/font.css" rel="stylesheet">
+			<!-- custom style -->
 			<link href="${path}" rel="stylesheet">
 		</head>';
 		var template = new haxe.Template(str.replace('\t', ''));
@@ -172,8 +175,8 @@ body { margin-bottom: 60px;  padding-top:4.5rem;}
 				str += '\n\t-  <a href="${writeFile.fileName}.html">${writeFile.fileName}</a>';
 				Reflect.setField(obj, 'path', '${writeFile.fileName}.html');
 			} else {
-				str += '\n\t-  <a href="../${writeFile.folderName}/${writeFile.fileName}.html">${writeFile.fileName}</a>';
-				Reflect.setField(obj, 'path', '../${writeFile.folderName}/${writeFile.fileName}.html');
+				str += '\n\t-  <a href="${writeFile.folderName}/${writeFile.fileName}.html">${writeFile.fileName}</a>';
+				Reflect.setField(obj, 'path', '${writeFile.folderName}/${writeFile.fileName}.html');
 			}
 			pages.push(obj);
 		}
@@ -195,7 +198,7 @@ body { margin-bottom: 60px;  padding-top:4.5rem;}
 		str += '\n
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 		<div class="container">
-		<a class="navbar-brand" href="#">*</a>
+		<a class="navbar-brand" href="#"><i class="fa fa-gears"></i></a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 		</button>
