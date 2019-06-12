@@ -163,10 +163,16 @@ body { margin-bottom: 60px;  padding-top:4.5rem;}
 	 */
 	function createNavigation(path:String):String {
 		var folder = path.replace(EXPORT, ''); // remove absolute data
+		var root = folder;
+		if(root != '') root = '../';
 		var pages = [];
 		var posts = [];
 		var str = '<header>\n<!-- header/navigation -->';
 		str += '\n<!--';
+		str += '\npath: "${path}"';
+		str += '\nfolder: "${folder}"';
+		str += '\nPAGES: "${(folder.indexOf(PAGES) != -1)}"';
+		str += '\nPOSTS: "${(folder.indexOf(POSTS) != -1)}"';
 		str += '\npages:';
 		for (i in 0...pageArr.length) {
 			var writeFile = pageArr[i];
@@ -175,8 +181,8 @@ body { margin-bottom: 60px;  padding-top:4.5rem;}
 				str += '\n\t-  <a href="${writeFile.fileName}.html">${writeFile.fileName}</a>';
 				Reflect.setField(obj, 'path', '${writeFile.fileName}.html');
 			} else {
-				str += '\n\t-  <a href="${writeFile.folderName}/${writeFile.fileName}.html">${writeFile.fileName}</a>';
-				Reflect.setField(obj, 'path', '${writeFile.folderName}/${writeFile.fileName}.html');
+				str += '\n\t-  <a href="${root}${writeFile.folderName}/${writeFile.fileName}.html">${writeFile.fileName}</a>';
+				Reflect.setField(obj, 'path', '${root}${writeFile.folderName}/${writeFile.fileName}.html');
 			}
 			pages.push(obj);
 		}
@@ -188,8 +194,8 @@ body { margin-bottom: 60px;  padding-top:4.5rem;}
 				str += '\n\t-  <a href="${writeFile.fileName}.html">${writeFile.fileName}</a>';
 				Reflect.setField(obj, 'path', '${writeFile.fileName}.html');
 			} else {
-				str += '\n\t-  <a href="../${writeFile.folderName}/${writeFile.fileName}.html">${writeFile.fileName}</a>';
-				Reflect.setField(obj, 'path', '../${writeFile.folderName}/${writeFile.fileName}.html');
+				str += '\n\t-  <a href="${root}${writeFile.folderName}/${writeFile.fileName}.html">${writeFile.fileName}</a>';
+				Reflect.setField(obj, 'path', '${root}${writeFile.folderName}/${writeFile.fileName}.html');
 			}
 			posts.push(obj);
 		}
@@ -198,7 +204,7 @@ body { margin-bottom: 60px;  padding-top:4.5rem;}
 		str += '\n
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 		<div class="container">
-		<a class="navbar-brand" href="#"><i class="fa fa-gears"></i></a>
+		<a class="navbar-brand" href="${root}"><i class="fa fa-gears"></i></a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 		</button>
