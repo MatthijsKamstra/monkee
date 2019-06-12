@@ -169,10 +169,6 @@ body { margin-bottom: 60px;  padding-top:4.5rem;}
 		var posts = [];
 		var str = '<header>\n<!-- header/navigation -->';
 		str += '\n<!--';
-		str += '\npath: "${path}"';
-		str += '\nfolder: "${folder}"';
-		str += '\nPAGES: "${(folder.indexOf(PAGES) != -1)}"';
-		str += '\nPOSTS: "${(folder.indexOf(POSTS) != -1)}"';
 		str += '\npages:';
 		for (i in 0...pageArr.length) {
 			var writeFile = pageArr[i];
