@@ -2,7 +2,7 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Haxe Interpreter",
+			"name": "Debug",
 			"type": "haxe-eval",
 			"request": "launch"
 		}
