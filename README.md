@@ -39,18 +39,21 @@ Remember it's WIP and probably will never finish
 
 ## speed
 
-Building speed... I have no idea if this is really the time (in milliseconds) is takes.
-But currently I use the Python target, because ... `0ms` is really, really (impossible) fast !
+Building speed... I have no idea if this is really the time (in milliseconds) is takes. Still figuring out what the fasters building system is...
+
+Don't know which one: seems cpp is the fastest and node.js is second fastest.
 
 ```
-[node] done in 68ms
-[python] done in 0ms
-[lua] done in 0ms
-[neko] done in 1000ms
-[cpp] done in 42ms
-[cs] done in 227ms
-[java] done in 251ms
+[node] start: 65ms, current: 128ms, past:63ms
+[python] start: 73ms, current: 287ms, past:214ms
+[lua] start: 10ms, current: 259ms, past:249ms
+[neko] start: 10ms, current: 430ms, past:420ms
+[cpp] start: 0ms, current: 50ms, past:50ms
+[cs] start: 49738705ms, current: 49738904ms, past:199ms
+[java] start: 49742687ms, current: 49742917ms, past:230ms
 ```
+
+
 
 ## python
 

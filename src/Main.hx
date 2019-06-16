@@ -35,15 +35,17 @@ class Main {
 			footer: 'Copyright &copy; ${Date.now().getFullYear()} - [mck]'
 		}
 
-		trace('[${TARGET}] Creating a static site generator');
+		Sys.println('[${TARGET}] Creating a static site generator');
 
 		collectData();
 		writeFiles();
 		writeIndex();
 		writeCSS();
 
-		trace('[${TARGET}] done in ${Std.int(Date.now().getTime() - startTime)}ms');
-		trace('[${TARGET}] system done in ${Std.int((Sys.cpuTime() - sysTime) * 1000)}ms / ${Sys.cpuTime()}sec.');
+		// trace('[${TARGET}] done in ${Std.int(Date.now().getTime() - startTime)}ms');
+		// trace('[${TARGET}] system done in ${Std.int((Sys.cpuTime() - sysTime) * 1000)}ms / ${Sys.cpuTime()}sec.');
+
+		Sys.println('[${TARGET}] start: ${Std.int(sysTime * 1000)}ms, current: ${Std.int(Sys.cpuTime() * 1000)}ms, past:${Std.int((Sys.cpuTime() - sysTime) * 1000)}ms');
 	}
 
 	function collectData() {
@@ -105,7 +107,7 @@ class Main {
 		var html = '<!doctype html>\n<html lang="en">\n${createHead(EXPORT)}\n<body>\n${createNavigation(EXPORT)}\n<main rol="main" class="container">\n${output}\n</main>\n${createFooter()}\n</body>\n</html>';
 		// write the file
 		sys.io.File.saveContent(EXPORT + '/index.html', html);
-		trace('written file: ${EXPORT}/index.html');
+		// trace('written file: ${EXPORT}/index.html');
 	}
 
 	function writeCSS() {
@@ -131,7 +133,7 @@ body { margin-bottom: 60px;  padding-top:4.5rem;}
 		var html = '<!doctype html>\n<html lang="en">\n${createHead(path)}\n<body>\n${createNavigation(path)}\n<main rol="main" class="container">\n${content}\n</main>\n${createFooter()}\n</body>\n</html>';
 		// write the file
 		sys.io.File.saveContent(path + '/${filename}.html', html);
-		trace('written file: ${path}/${filename}.html');
+		// trace('written file: ${path}/${filename}.html');
 	}
 
 	function createHead(path:String):String {
