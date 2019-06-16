@@ -23,6 +23,7 @@ class Main {
 
 	function new() {
 		var startTime = Date.now().getTime(); // lets see how fast target really are
+		var sysTime = Sys.cpuTime(); // lets see how fast target really are
 
 		TARGET = Sys.getCwd().split('bin/')[1].split('/')[0]; // yep, that works in this folder structure
 		EXPORT = Path.normalize(Sys.getCwd().split('bin/')[0] + '/www/${TARGET}'); // normal situation this would we just the `www` or `docs` folder
@@ -42,6 +43,7 @@ class Main {
 		writeCSS();
 
 		trace('[${TARGET}] done in ${Std.int(Date.now().getTime() - startTime)}ms');
+		trace('[${TARGET}] system done in ${Std.int((Sys.cpuTime() - sysTime) * 1000)}ms / ${Sys.cpuTime()}sec.');
 	}
 
 	function collectData() {
@@ -164,7 +166,8 @@ body { margin-bottom: 60px;  padding-top:4.5rem;}
 	function createNavigation(path:String):String {
 		var folder = path.replace(EXPORT, ''); // remove absolute data
 		var root = folder;
-		if(root != '') root = '../';
+		if (root != '')
+			root = '../';
 		var pages = [];
 		var posts = [];
 		var str = '<header>\n<!-- header/navigation -->';
